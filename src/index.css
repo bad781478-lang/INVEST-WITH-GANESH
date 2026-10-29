@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+@theme {
+  --font-heading: "Plus Jakarta Sans", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-geist: "Geist", sans-serif;
+
+  --color-brand-dark: #161512;
+  --color-brand-card: #211f1b;
+  --color-brand-light: #f7f7f7;
+  --color-brand-border: rgba(0, 0, 0, 0.08);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: var(--font-sans);
+    color: rgba(0, 0, 0, 0.9);
+    background-color: #ffffff;
+    overflow-x: hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+/* Custom animations */
+:root {
+  --ease-framer: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes kenBurns {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.12);
+  }
+}
+
+.ken-burns-active {
+  animation: kenBurns 18s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Consultaro / Framer Inspired Smooth Scroll Reveal System */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.85s var(--ease-framer), transform 0.85s var(--ease-framer);
+  will-change: opacity, transform;
+}
+
+.reveal-fade {
+  opacity: 0;
+  transition: opacity 0.85s var(--ease-framer);
+  will-change: opacity;
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.96) translateY(20px);
+  transition: opacity 0.85s var(--ease-framer), transform 0.85s var(--ease-framer);
+  will-change: opacity, transform;
+}
+
+.reveal-slide-left {
+  opacity: 0;
+  transform: translateX(-36px);
+  transition: opacity 0.85s var(--ease-framer), transform 0.85s var(--ease-framer);
+  will-change: opacity, transform;
+}
+
+.reveal-slide-right {
+  opacity: 0;
+  transform: translateX(36px);
+  transition: opacity 0.85s var(--ease-framer), transform 0.85s var(--ease-framer);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed,
+.reveal-fade.is-revealed,
+.reveal-scale.is-revealed,
+.reveal-slide-left.is-revealed,
+.reveal-slide-right.is-revealed {
+  opacity: 1 !important;
+  transform: translate(0, 0) scale(1) !important;
+}
+
+/* Stagger Delays */
+.delay-75 { transition-delay: 75ms; }
+.delay-100 { transition-delay: 100ms; }
+.delay-150 { transition-delay: 150ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-250 { transition-delay: 250ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-350 { transition-delay: 350ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+.delay-600 { transition-delay: 600ms; }
+
+/* Interactive Hover Lift & Smooth Transitions */
+.hover-lift {
+  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring), border-color 0.4s var(--ease-spring);
+}
+.hover-lift:hover {
+  transform: translateY(-5px);
+}
+
+/* Hero Load Fade In Keyframes */
+@keyframes hero-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-1 {
+  animation: hero-fade-up 0.85s var(--ease-framer) 0.1s backwards;
+}
+.animate-hero-2 {
+  animation: hero-fade-up 0.95s var(--ease-framer) 0.25s backwards;
+}
+.animate-hero-3 {
+  animation: hero-fade-up 0.95s var(--ease-framer) 0.4s backwards;
+}
+.animate-hero-4 {
+  animation: hero-fade-up 0.95s var(--ease-framer) 0.55s backwards;
+}
+
+/* Accessibility: Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll,
+  .reveal-fade,
+  .reveal-scale,
+  .reveal-slide-left,
+  .reveal-slide-right,
+  .animate-hero-1,
+  .animate-hero-2,
+  .animate-hero-3,
+  .animate-hero-4 {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Custom animations */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* YouTube Play Button Animations */
+@keyframes yt-breathe {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 8px 24px rgba(255, 0, 0, 0.45));
+  }
+  50% {
+    transform: scale(1.07);
+    filter: drop-shadow(0 14px 36px rgba(255, 0, 0, 0.75));
+  }
+}
+
+@keyframes yt-ripple {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(1.55);
+    opacity: 0;
+  }
+}
+
+.animate-yt-breathe {
+  animation: yt-breathe 2.4s ease-in-out infinite;
+}
+
+.animate-yt-ripple {
+  animation: yt-ripple 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.animate-yt-ripple-delay {
+  animation: yt-ripple 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  animation-delay: 1s;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}

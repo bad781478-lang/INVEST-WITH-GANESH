@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { ArrowRight, ExternalLink, Video, FileCheck2, TrendingUp } from 'lucide-react';
 
 const videoFeatures = [
@@ -32,40 +32,14 @@ const videoFeatures = [
 ];
 
 export const YoutubeShowcaseSection: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <section
-      ref={sectionRef}
       id="video-insights"
       className="bg-white py-20 md:py-28 border-b border-zinc-200/60 overflow-hidden scroll-mt-20"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-10">
-        {/* Section Header (Consultaro UI/UX Style) */}
-        <div
-          className={`max-w-3xl mx-auto text-center space-y-4 mb-12 sm:mb-16 transition-all duration-700 ease-out ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-          }`}
-        >
+        {/* Section Header */}
+        <div className="max-w-3xl mx-auto text-center space-y-4 mb-12 sm:mb-16 reveal-on-scroll">
           <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-[11px] font-medium tracking-[0.14em] uppercase transition-colors select-none bg-[#f0f0f0] text-zinc-800 border border-zinc-200/60 shadow-xs">
             <span className="w-1.5 h-1.5 rounded-full bg-zinc-800" />
             <span>JAIPUR PLOT VIDEO TOURS</span>
@@ -81,11 +55,7 @@ export const YoutubeShowcaseSection: React.FC = () => {
         </div>
 
         {/* Video Showcase Card */}
-        <div
-          className={`relative max-w-5xl mx-auto transition-all duration-1000 delay-100 ease-out ${
-            isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-[0.98]'
-          }`}
-        >
+        <div className="relative max-w-5xl mx-auto reveal-scale delay-100">
           {/* Ambient Glow Aura */}
           <div className="absolute -inset-2 bg-gradient-to-r from-zinc-900/5 via-amber-500/10 to-zinc-900/5 rounded-3xl blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
@@ -133,7 +103,7 @@ export const YoutubeShowcaseSection: React.FC = () => {
             </div>
           </a>
 
-          {/* 3 High-Value SEO Video Feature Cards (Consultaro UI/UX Style, Zero Repetition) */}
+          {/* 3 High-Value SEO Video Feature Cards */}
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
             {videoFeatures.map((item, index) => {
               const Icon = item.icon;
@@ -142,9 +112,7 @@ export const YoutubeShowcaseSection: React.FC = () => {
               return (
                 <div
                   key={item.id}
-                  className={`bg-white rounded-2xl p-6 sm:p-7 border border-zinc-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:border-zinc-300 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-700 [transition-timing-function:var(--ease-framer)] flex flex-col justify-between group ${delayClass} ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                  }`}
+                  className={`bg-white rounded-2xl p-6 sm:p-7 border border-zinc-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:border-zinc-300 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between group reveal-on-scroll ${delayClass}`}
                 >
                   <div className="space-y-4">
                     {/* Header: Tag + Icon */}
@@ -173,11 +141,7 @@ export const YoutubeShowcaseSection: React.FC = () => {
           </div>
 
           {/* Unified Action Buttons */}
-          <div
-            className={`mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 transition-all duration-700 delay-300 [transition-timing-function:var(--ease-framer)] ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-            }`}
-          >
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 reveal-on-scroll delay-200">
             <a
               href="https://www.youtube.com/@invest_with_gaaneesh"
               target="_blank"

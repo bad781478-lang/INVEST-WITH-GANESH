@@ -107,6 +107,13 @@
   will-change: auto !important;
 }
 
+.reveal-on-scroll.is-revealed[class*="hover:-translate"]:hover,
+.reveal-scale.is-revealed[class*="hover:-translate"]:hover,
+.reveal-on-scroll.is-revealed[class*="hover:scale"]:hover,
+.reveal-scale.is-revealed[class*="hover:scale"]:hover {
+  transform: var(--tw-transform) !important;
+}
+
 /* Stagger Delays */
 .delay-75 { transition-delay: 75ms; }
 .delay-100 { transition-delay: 100ms; }

@@ -12,8 +12,13 @@ export const HeroSection: React.FC = () => {
   useEffect(() => {
     if (isRevealed) return;
 
+    let pauseTimer: ReturnType<typeof setTimeout>;
+
     const handleReveal = () => {
-      setIsRevealed(true);
+      // Halka sa pause (380ms) after entrance reveal completes before animating hero content
+      pauseTimer = setTimeout(() => {
+        setIsRevealed(true);
+      }, 380);
     };
 
     window.addEventListener('entrance-reveal-opened', handleReveal);
@@ -21,10 +26,11 @@ export const HeroSection: React.FC = () => {
     // Safety timeout in case window events are delayed
     const timer = setTimeout(() => {
       setIsRevealed(true);
-    }, 4200);
+    }, 5500);
 
     return () => {
       window.removeEventListener('entrance-reveal-opened', handleReveal);
+      clearTimeout(pauseTimer);
       clearTimeout(timer);
     };
   }, [isRevealed]);

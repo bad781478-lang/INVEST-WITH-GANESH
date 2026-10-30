@@ -266,9 +266,9 @@
   --shutter-away: 102%;
 }
 
-/* When reveal animation triggers: deliberate luxury hold until 3.45s, then smooth slice */
+/* When reveal animation triggers: deliberate luxury hold until 3.35s, then smooth slice */
 .onform-intro--playing .onform-intro-shutter {
-  animation: onformShutterSlice 0.85s cubic-bezier(0.76, 0, 0.24, 1) calc(3.45s + var(--band) * 80ms) both;
+  animation: onformShutterSlice 0.75s cubic-bezier(0.76, 0, 0.24, 1) calc(3.35s + var(--band) * 60ms) both;
 }
 
 .onform-intro-canvas {

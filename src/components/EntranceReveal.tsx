@@ -31,17 +31,17 @@ export const EntranceReveal: React.FC = () => {
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
 
-    // Trigger hero & page content appearing animation right as shutters begin slicing
-    const revealStartTimer = setTimeout(() => {
+    // Trigger entrance-reveal-opened right when shutters have fully opened and cleared (4.35s)
+    const revealCompleteTimer = setTimeout(() => {
       window.__entranceRevealActive = false;
       window.__entranceRevealDone = true;
       window.dispatchEvent(new CustomEvent('entrance-reveal-opened'));
-    }, 3550);
+    }, 4350);
 
     const finish = () => {
       if (finishedRef.current) return;
       finishedRef.current = true;
-      clearTimeout(revealStartTimer);
+      clearTimeout(revealCompleteTimer);
       window.__entranceRevealActive = false;
       window.__entranceRevealDone = true;
       window.dispatchEvent(new CustomEvent('entrance-reveal-opened'));
@@ -50,11 +50,8 @@ export const EntranceReveal: React.FC = () => {
       setShouldRender(false);
     };
 
-    // Total duration:
-    // Badge at 0.35s, Typewriter from 0.55s to ~1.75s, Tagline at 2.15s,
-    // Luxury readability hold until 3.45s, shutter slice 3.45s to 4.62s.
-    // Clean unmount at 4800ms.
-    const timeout = setTimeout(finish, 4800);
+    // Clean unmount once shutters have finished opening
+    const timeout = setTimeout(finish, 4400);
 
     // Skip controls: Escape, Enter, Space
     const handleKey = (e: KeyboardEvent) => {
@@ -65,7 +62,7 @@ export const EntranceReveal: React.FC = () => {
 
     return () => {
       clearTimeout(timeout);
-      clearTimeout(revealStartTimer);
+      clearTimeout(revealCompleteTimer);
       window.removeEventListener('keydown', handleKey);
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';

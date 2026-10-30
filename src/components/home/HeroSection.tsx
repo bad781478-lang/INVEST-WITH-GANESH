@@ -10,16 +10,28 @@ export const HeroSection: React.FC = () => {
         <picture className="w-full h-full block">
           <source
             media="(max-width: 767px)"
+            srcSet="/pfpforhero.webp"
+            type="image/webp"
+          />
+          <source
+            media="(max-width: 767px)"
             srcSet="/pfpforhero.png"
+          />
+          <source
+            media="(min-width: 768px)"
+            srcSet="/72fbd819-c069-41bf-8bfa-4aac12857daf.webp"
+            type="image/webp"
           />
           <source
             media="(min-width: 768px)"
             srcSet="/72fbd819-c069-41bf-8bfa-4aac12857daf.png"
           />
           <img
-            src="/pfpforhero.png"
+            src="/pfpforhero.webp"
             alt="Mr. Ganesh Yadav, Jaipur plot advisor at Invest With Ganesh"
             className="w-full h-full object-cover object-[center_top] md:object-[78%_center] lg:object-right opacity-100"
+            fetchPriority="high"
+            decoding="async"
           />
         </picture>
 

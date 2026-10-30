@@ -78,10 +78,10 @@ export const StatementSection: React.FC = () => {
                   style={{
                     transitionDelay: `${delay}ms`,
                   }}
-                  className={`inline-block mr-[0.25em] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
+                  className={`inline-block mr-[0.25em] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                     isRevealed
-                      ? 'opacity-100 translate-y-0 blur-none'
-                      : 'opacity-0 translate-y-4 blur-[3px]'
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-3'
                   } ${
                     word.highlight
                       ? word.accent

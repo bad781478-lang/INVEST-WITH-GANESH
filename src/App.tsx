@@ -40,7 +40,7 @@ const ScrollToTop: React.FC = () => {
   return null;
 };
 
-// Global Consultaro / Framer Smooth Scroll Reveal Observer with dynamic DOM support
+// Global Consultaro / Framer Smooth Scroll Reveal Observer (High Performance, Butter-Smooth)
 const ScrollAnimationObserver: React.FC = () => {
   const { pathname } = useLocation();
 
@@ -60,7 +60,7 @@ const ScrollAnimationObserver: React.FC = () => {
           }
         });
       },
-      { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
+      { threshold: 0.05, rootMargin: '0px 0px 40px 0px' }
     );
 
     const observeUnrevealed = () => {
@@ -70,18 +70,16 @@ const ScrollAnimationObserver: React.FC = () => {
       elements.forEach((el) => observer.observe(el));
     };
 
-    const timer = setTimeout(observeUnrevealed, 50);
-
-    const mutationObserver = new MutationObserver(() => {
-      observeUnrevealed();
-    });
-
-    mutationObserver.observe(document.body, { childList: true, subtree: true });
+    observeUnrevealed();
+    const t1 = setTimeout(observeUnrevealed, 60);
+    const t2 = setTimeout(observeUnrevealed, 300);
+    const t3 = setTimeout(observeUnrevealed, 800);
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
       observer.disconnect();
-      mutationObserver.disconnect();
     };
   }, [pathname]);
 

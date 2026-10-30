@@ -6,11 +6,16 @@ export const ResultsSection: React.FC = () => {
     <section className="relative bg-[#161512] text-white py-28 md:py-36 overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img
-          src="/images/jaipur-plotted-corridors.jpg"
-          alt="Aerial view of Jaipur plotted growth corridors"
-          className="w-full h-full object-cover object-center opacity-50 filter brightness-105"
-        />
+        <picture className="w-full h-full block">
+          <source srcSet="/images/jaipur-plotted-corridors.webp" type="image/webp" />
+          <img
+            src="/images/jaipur-plotted-corridors.jpg"
+            alt="Aerial view of Jaipur plotted growth corridors"
+            className="w-full h-full object-cover object-center opacity-50 filter brightness-105"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
         <div className="absolute inset-0 bg-gradient-to-b from-[#161512]/85 via-[#161512]/65 to-[#161512]/90" />
       </div>
 

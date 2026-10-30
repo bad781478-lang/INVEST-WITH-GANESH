@@ -99,12 +99,16 @@ export const YoutubeShowcaseSection: React.FC = () => {
           >
             {/* Aspect Ratio Container (1672 x 941) */}
             <div className="relative aspect-[1672/941] w-full overflow-hidden bg-zinc-900">
-              <img
-                src="/youtube-banner.png"
-                alt="Invest With Ganesh YouTube channel, Jaipur plotted township drone walkthroughs"
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-                loading="lazy"
-              />
+              <picture className="w-full h-full block">
+                <source srcSet="/youtube-banner.webp" type="image/webp" />
+                <img
+                  src="/youtube-banner.png"
+                  alt="Invest With Ganesh YouTube channel, Jaipur plotted township drone walkthroughs"
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
 
               {/* Shimmer Light Reflection Sweep on Hover */}
               <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full duration-1000 bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform ease-out pointer-events-none" />

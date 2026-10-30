@@ -19,13 +19,20 @@ export const Navbar: React.FC = () => {
     location.pathname === '/case-studies/vivo-city';
 
   useEffect(() => {
+    let ticking = false;
+    let lastScrolled = isDarkHeroPage ? window.scrollY > 380 : window.scrollY > 20;
+
     const handleScroll = () => {
-      // On dark 100vh hero pages (home and Yaduraj Ojas), navbar stays transparent with light text until scrolled
-      // On light canvas pages, navbar is transparent at scroll (0,0) and frosts when scrolled past 20px
-      if (isDarkHeroPage) {
-        setIsScrolled(window.scrollY > 380);
-      } else {
-        setIsScrolled(window.scrollY > 20);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const nextScrolled = isDarkHeroPage ? window.scrollY > 380 : window.scrollY > 20;
+          if (nextScrolled !== lastScrolled) {
+            lastScrolled = nextScrolled;
+            setIsScrolled(nextScrolled);
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 

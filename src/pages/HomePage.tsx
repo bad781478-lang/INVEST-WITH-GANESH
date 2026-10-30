@@ -9,7 +9,6 @@ import { ResultsSection } from '../components/home/ResultsSection';
 import { TestimonialsSection } from '../components/home/TestimonialsSection';
 import { BlogsSection } from '../components/home/BlogsSection';
 import { FaqSection } from '../components/home/FaqSection';
-import { CTASection } from '../components/home/CTASection';
 
 export const HomePage: React.FC = () => {
   return (
@@ -24,7 +23,6 @@ export const HomePage: React.FC = () => {
       <TestimonialsSection />
       <BlogsSection />
       <FaqSection />
-      <CTASection />
     </main>
   );
 };

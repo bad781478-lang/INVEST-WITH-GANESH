@@ -47,6 +47,10 @@ const ScrollAnimationObserver: React.FC = () => {
   useEffect(() => {
     if (typeof window === 'undefined' || !('IntersectionObserver' in window)) return;
 
+    // Reset footer reveal on route change so it animates when scrolled to on the new page
+    const footerElements = document.querySelectorAll('footer.is-revealed, footer .is-revealed');
+    footerElements.forEach((el) => el.classList.remove('is-revealed'));
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

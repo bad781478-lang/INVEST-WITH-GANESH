@@ -5,12 +5,12 @@ import { companyDetails } from '../data/consultareData';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#161512] text-white pt-12 pb-10 sm:pt-14 sm:pb-12 border-t border-white/10">
+    <footer className="bg-[#161512] text-white pt-12 pb-10 sm:pt-14 sm:pb-12 border-t border-white/10 overflow-hidden reveal-on-scroll">
       <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-10">
         {/* Top Minimal Section: Brand + Links */}
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 lg:gap-12 pb-10 sm:pb-12 border-b border-white/[0.08]">
           {/* Brand Lockup (Refined & Compact) */}
-          <div className="space-y-3.5 max-w-sm">
+          <div className="space-y-3.5 max-w-sm reveal-on-scroll delay-100">
             <Link to="/" className="inline-flex items-center gap-3 group">
               <img
                 src="/brand/logo-square.png"
@@ -76,7 +76,7 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Minimal Links Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-12 lg:gap-16">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-12 lg:gap-16 reveal-on-scroll delay-200">
             {/* Nav Links */}
             <div className="space-y-3">
               <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-zinc-500 font-semibold">
@@ -172,7 +172,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Credits & Legal */}
-        <div className="pt-6 sm:pt-7 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-500">
+        <div className="pt-6 sm:pt-7 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-500 reveal-fade delay-300">
           <p className="text-zinc-500 text-[12px]">{companyDetails.copyright}</p>
           <a
             href={companyDetails.designerUrl}
@@ -185,7 +185,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Minimal Legal Disclaimer */}
-        <div className="mt-4 pt-4 border-t border-white/[0.04] text-[10.5px] text-zinc-500/70 leading-relaxed font-normal">
+        <div className="mt-4 pt-4 border-t border-white/[0.04] text-[10.5px] text-zinc-500/70 leading-relaxed font-normal reveal-fade delay-400">
           <p>{companyDetails.disclaimer}</p>
         </div>
       </div>

@@ -1,43 +1,63 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 export const EntranceReveal: React.FC = () => {
   const [progress, setProgress] = useState(0);
-  const [isLifting, setIsLifting] = useState(false);
+  const [phase, setPhase] = useState<'playing' | 'exit' | 'shutters' | 'done'>('playing');
   const [shouldRender, setShouldRender] = useState(true);
+  const hasFinishedRef = useRef(false);
 
   useEffect(() => {
-    // Lock body scrolling during the initial entrance sequence
+    // Lock scrolling while entrance sequence is active
     document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
 
-    const duration = 1000; // 1 second luxury sequence
+    const duration = 1450; // Snappy, cinematic 1.45s counter duration
     const startTime = performance.now();
+    let animFrame: number;
 
-    const updateProgress = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const pct = Math.min(100, Math.floor((elapsed / duration) * 100));
-      setProgress(pct);
+    const tick = (now: number) => {
+      if (hasFinishedRef.current) return;
+      const elapsed = now - startTime;
+      const progressRatio = Math.min(elapsed / duration, 1);
+      // Smooth ease-out cubic curve (1 - (1 - t)^3) like Iron Oath Studio
+      const eased = 1 - Math.pow(1 - progressRatio, 3);
+      const currentPct = Math.round(eased * 100);
+      setProgress(currentPct);
 
-      if (elapsed < duration) {
-        requestAnimationFrame(updateProgress);
+      if (progressRatio < 1) {
+        animFrame = requestAnimationFrame(tick);
       } else {
         setProgress(100);
-        // Start curtain lift animation
+        hasFinishedRef.current = true;
+
+        // Sequence:
+        // 1. Hide progress & start wordmark fly
         setTimeout(() => {
-          setIsLifting(true);
-          document.body.style.overflow = '';
-          // Remove from DOM completely after curtain animation finishes
-          setTimeout(() => {
-            setShouldRender(false);
-          }, 850);
+          setPhase('exit');
         }, 120);
+
+        // 2. Trigger double-layer shutter reveal
+        setTimeout(() => {
+          setPhase('shutters');
+          // Unlock body scroll as shutters part
+          document.body.style.overflow = '';
+          document.documentElement.style.overflow = '';
+        }, 280);
+
+        // 3. Unmount completely from DOM
+        setTimeout(() => {
+          setPhase('done');
+          setShouldRender(false);
+        }, 1250);
       }
     };
 
-    const frameId = requestAnimationFrame(updateProgress);
+    animFrame = requestAnimationFrame(tick);
 
     return () => {
-      cancelAnimationFrame(frameId);
+      cancelAnimationFrame(animFrame);
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, []);
 
@@ -45,63 +65,104 @@ export const EntranceReveal: React.FC = () => {
 
   return (
     <div
-      aria-hidden={isLifting}
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#161512] transition-transform duration-[800ms] ease-[cubic-bezier(0.77,0,0.175,1)] will-change-transform ${
-        isLifting ? '-translate-y-full pointer-events-none' : 'translate-y-0'
+      aria-hidden={phase !== 'playing'}
+      className={`io-reveal-screen io-reveal--playing ${
+        phase === 'shutters' || phase === 'done' ? 'io-reveal--shutters-exit' : ''
       }`}
     >
-      {/* Ambient Luxury Golden Glow Aura */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-        <div className="w-[360px] sm:w-[500px] h-[360px] sm:h-[500px] bg-gradient-to-tr from-amber-500/15 via-amber-600/5 to-transparent rounded-full blur-[100px] animate-pulse" />
+      {/* Layer 1: White Columns (slide down on exit) */}
+      <div className="io-reveal-layer" aria-hidden="true">
+        {[0, 1, 2, 3, 4].map((col) => (
+          <div
+            key={`white-col-${col}`}
+            className="io-reveal-column io-reveal-column--white"
+            style={{ '--column-index': col } as React.CSSProperties}
+          />
+        ))}
       </div>
 
-      {/* Center Brand Lockup */}
-      <div
-        className={`relative z-10 flex flex-col items-center text-center px-6 transition-all duration-400 ease-out ${
-          isLifting ? 'opacity-0 -translate-y-8 scale-95' : 'opacity-100 translate-y-0 scale-100'
-        }`}
-      >
-        {/* Glowing Brand Icon Emblem */}
-        <div className="relative mb-5 sm:mb-6">
-          <div className="absolute -inset-2.5 rounded-2xl bg-amber-500/20 blur-md animate-pulse" />
-          <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-black/60 border border-white/20 p-2 shadow-2xl flex items-center justify-center backdrop-blur-md">
-            <img
-              src="/brand/logo-square.png"
-              alt="Invest With Ganesh Logo"
-              className="w-full h-full object-contain"
-            />
-          </div>
-        </div>
+      {/* Layer 2: Black Columns (slide up on exit) */}
+      <div className="io-reveal-layer" aria-hidden="true">
+        {[0, 1, 2, 3, 4].map((col) => (
+          <div
+            key={`black-col-${col}`}
+            className="io-reveal-column io-reveal-column--black"
+            style={{ '--column-index': col } as React.CSSProperties}
+          />
+        ))}
+      </div>
 
-        {/* Typography */}
-        <h1
-          className="text-lg sm:text-2xl font-bold tracking-tight text-white mb-1.5"
-          style={{ fontFamily: '"Plus Jakarta Sans", sans-serif' }}
+      {/* Centered Editorial Wordmark & Progress: 100% Black & White Text, NO LOGO */}
+      <div className="io-reveal-content">
+        <div
+          className={`io-reveal-wordmark ${
+            phase === 'exit' || phase === 'shutters' || phase === 'done'
+              ? 'io-reveal--wordmark-exit'
+              : ''
+          }`}
         >
-          INVEST WITH GANESH
-        </h1>
-
-        <p className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.22em] text-amber-400 font-semibold mb-7">
-          JDA &amp; RERA APPROVED PLOTS · JAIPUR
-        </p>
-
-        {/* Sleek Golden Progress Meter */}
-        <div className="w-48 sm:w-60 space-y-2">
-          <div className="h-[2px] w-full bg-white/10 rounded-full overflow-hidden relative">
-            <div
-              className="h-full bg-gradient-to-r from-amber-400 via-[#BD9A68] to-amber-200 transition-all duration-75 ease-out rounded-full shadow-[0_0_12px_rgba(245,158,11,0.9)]"
-              style={{ width: `${progress}%` }}
-            />
+          {/* Word 1: INVEST */}
+          <div className="io-wordmark-group">
+            {'INVEST'.split('').map((char, idx) => (
+              <span key={`w1-${idx}`} className="io-letter-clip">
+                <span
+                  className="io-letter"
+                  style={{ '--letter-index': idx } as React.CSSProperties}
+                >
+                  {char}
+                </span>
+              </span>
+            ))}
           </div>
-          <div className="flex items-center justify-between text-[10.5px] font-mono text-zinc-400 tracking-wider">
-            <span className="text-zinc-500">VERIFIED LIVING</span>
-            <span className="text-amber-400 font-semibold">{progress}%</span>
+
+          {/* Word 2 & 3: WITH GANESH */}
+          <div className="io-wordmark-group">
+            {'WITH'.split('').map((char, idx) => (
+              <span key={`w2-${idx}`} className="io-letter-clip">
+                <span
+                  className="io-letter"
+                  style={{ '--letter-index': 6 + idx } as React.CSSProperties}
+                >
+                  {char}
+                </span>
+              </span>
+            ))}
+            <span className="w-2.5 sm:w-4 inline-block" />
+            {'GANESH'.split('').map((char, idx) => (
+              <span key={`w3-${idx}`} className="io-letter-clip">
+                <span
+                  className="io-letter"
+                  style={{ '--letter-index': 10 + idx } as React.CSSProperties}
+                >
+                  {char}
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Minimal Progress Bar & Numerical Counter */}
+        <div className="io-reveal-progress">
+          <div
+            className={`io-reveal-progress-labels ${
+              phase !== 'playing' ? 'io-reveal--labels-hide' : ''
+            }`}
+          >
+            <span className="tracking-[0.16em]">LOADING</span>
+            <span className="font-mono">{progress}%</span>
+          </div>
+          <div
+            className={`io-reveal-progress-track ${
+              phase !== 'playing' ? 'io-reveal--labels-hide' : ''
+            }`}
+          >
+            <span
+              className="io-reveal-line"
+              style={{ transform: `scaleX(${progress / 100})` }}
+            />
           </div>
         </div>
       </div>
-
-      {/* Golden Curtain Bottom Lip Accent Line */}
-      <div className="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#BD9A68] to-transparent opacity-80" />
     </div>
   );
 };

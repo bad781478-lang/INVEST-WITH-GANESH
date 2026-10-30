@@ -4,6 +4,7 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { StickySocialActions } from './components/StickySocialActions';
 import { EntranceReveal } from './components/EntranceReveal';
+import { PageTransition } from './components/PageTransition';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { ProjectsPage } from './pages/ProjectsPage';
@@ -22,24 +23,6 @@ import { ContactPage } from './pages/ContactPage';
 import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 import { TermsPolicyPage } from './pages/TermsPolicyPage';
 import { NotFoundPage } from './pages/NotFoundPage';
-
-// Scroll to top on route change or handle hash scroll
-const ScrollToTop: React.FC = () => {
-  const { pathname, hash } = useLocation();
-
-  useEffect(() => {
-    if (hash) {
-      const element = document.querySelector(hash);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-        return;
-      }
-    }
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  }, [pathname, hash]);
-
-  return null;
-};
 
 // Global Consultaro / Framer Smooth Scroll Reveal Observer (High Performance, Butter-Smooth)
 const ScrollAnimationObserver: React.FC = () => {
@@ -87,16 +70,18 @@ const ScrollAnimationObserver: React.FC = () => {
   return null;
 };
 
-export const App: React.FC = () => {
+const AppShell: React.FC = () => {
+  const location = useLocation();
+
   return (
-    <BrowserRouter>
+    <>
       <EntranceReveal />
-      <ScrollToTop />
+      <PageTransition />
       <ScrollAnimationObserver />
       <div className="flex flex-col min-h-screen">
         <Navbar />
-        <div className="flex-grow">
-          <Routes>
+        <div key={location.pathname} className="flex-grow page-content-wrapper">
+          <Routes location={location}>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
@@ -137,6 +122,14 @@ export const App: React.FC = () => {
         <Footer />
         <StickySocialActions />
       </div>
+    </>
+  );
+};
+
+export const App: React.FC = () => {
+  return (
+    <BrowserRouter>
+      <AppShell />
     </BrowserRouter>
   );
 };

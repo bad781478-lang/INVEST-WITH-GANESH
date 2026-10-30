@@ -225,6 +225,298 @@
   animation-delay: 1s;
 }
 
+/* ==========================================================================
+   IRON OATH STYLE ENTRANCE REVEAL (100% BLACK & WHITE, NO LOGO)
+   ========================================================================== */
+.io-reveal-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  color: #ffffff;
+  overflow: hidden;
+  background-color: #000000;
+  pointer-events: auto;
+}
+
+.io-reveal-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.io-reveal-column {
+  flex: 1 1 20%;
+  height: 100%;
+  margin-left: -1px;
+  transform: translate3d(0, 0, 0) scaleX(1.02);
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.io-reveal-column:first-child {
+  margin-left: 0;
+}
+
+.io-reveal-column--white {
+  background: #ffffff;
+}
+
+.io-reveal-column--black {
+  background: #000000;
+}
+
+.io-reveal-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.io-reveal-wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 2.25rem;
+  font-family: "Oswald", "Plus Jakarta Sans", sans-serif;
+  font-size: 2.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ffffff;
+  mix-blend-mode: difference;
+  will-change: transform, opacity, filter;
+}
+
+@media (min-width: 768px) {
+  .io-reveal-wordmark {
+    flex-direction: row;
+    gap: 1.5rem;
+    margin-bottom: 3.25rem;
+    font-size: 4.5rem;
+    letter-spacing: 0.18em;
+  }
+}
+
+.io-wordmark-group {
+  display: flex;
+  white-space: nowrap;
+}
+
+.io-letter-clip {
+  overflow: hidden;
+  display: inline-block;
+}
+
+.io-letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translate3d(0, 120%, 0);
+  will-change: transform, opacity;
+}
+
+.io-reveal-progress {
+  display: flex;
+  width: min(16rem, 80vw);
+  flex-direction: column;
+  align-items: center;
+  font-family: "Outfit", "Inter", monospace;
+  mix-blend-mode: difference;
+}
+
+.io-reveal-progress-labels {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: #ffffff;
+  transition: opacity 0.3s ease-out;
+}
+
+.io-reveal-progress-track {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.25);
+  transition: opacity 0.3s ease-out;
+}
+
+.io-reveal-line {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* Playing animations */
+.io-reveal--playing .io-letter {
+  animation: io-letter-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(0.12s + var(--letter-index) * 0.035s);
+}
+
+.io-reveal--labels-hide {
+  opacity: 0 !important;
+}
+
+.io-reveal--wordmark-exit {
+  animation: io-wordmark-fly 0.95s cubic-bezier(0.85, 0, 0.15, 1) both;
+}
+
+@media (max-width: 767px) {
+  .io-reveal--wordmark-exit {
+    animation: io-mobile-wordmark-fade 0.75s cubic-bezier(0.85, 0, 0.15, 1) both !important;
+  }
+}
+
+.io-reveal--shutters-exit .io-reveal-column--black {
+  animation: io-black-shutter 0.9s cubic-bezier(0.85, 0, 0.15, 1) both;
+  animation-delay: calc(var(--column-index) * 0.055s);
+}
+
+.io-reveal--shutters-exit .io-reveal-column--white {
+  animation: io-white-shutter 0.9s cubic-bezier(0.85, 0, 0.15, 1) both;
+  animation-delay: calc(0.08s + var(--column-index) * 0.055s);
+}
+
+@keyframes io-letter-in {
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes io-wordmark-fly {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(26);
+    filter: blur(8px);
+  }
+}
+
+@keyframes io-mobile-wordmark-fade {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -30px, 0) scale(1.08);
+  }
+}
+
+@keyframes io-black-shutter {
+  to {
+    transform: translate3d(0, -100%, 0) scaleX(1.02);
+  }
+}
+
+@keyframes io-white-shutter {
+  to {
+    transform: translate3d(0, 100%, 0) scaleX(1.02);
+  }
+}
+
+/* ==========================================================================
+   PAGE TRANSITIONS (ULTRA HIGH PERFORMANCE 5-COLUMN SHUTTER CURTAIN)
+   ========================================================================== */
+.page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  display: flex;
+  pointer-events: none;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+.page-transition-column {
+  flex: 1 1 20%;
+  height: 100%;
+  margin-left: -1px;
+  background-color: #0c0b09;
+  will-change: transform;
+  transform: translate3d(0, -100%, 0) scaleX(1.02);
+  transform-origin: center center;
+}
+
+.page-transition-column:first-child {
+  margin-left: 0;
+}
+
+/* Entering: slide down to cover the screen */
+.page-transition--entering .page-transition-column {
+  transform: translate3d(0, 0, 0) scaleX(1.02);
+  transition: transform 0.32s cubic-bezier(0.76, 0, 0.24, 1);
+  transition-delay: calc(var(--col-idx) * 0.03s);
+}
+
+/* Exiting: slide down offscreen to uncover the new page */
+.page-transition--exiting .page-transition-column {
+  transform: translate3d(0, 100%, 0) scaleX(1.02);
+  transition: transform 0.35s cubic-bezier(0.76, 0, 0.24, 1);
+  transition-delay: calc(var(--col-idx) * 0.03s);
+}
+
+/* Sleek minimal top progress indicator */
+.page-transition-tracer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 99995;
+  pointer-events: none;
+  background: #ffffff;
+  transform-origin: left center;
+  transition: transform 0.32s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.22s ease-out;
+}
+
+/* Page content gentle arrival animation */
+.page-content-wrapper {
+  animation: pageFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0.9;
+    transform: translate3d(0, 6px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-reveal-column,
+  .page-transition-column {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+  .page-content-wrapper {
+    animation: none !important;
+  }
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

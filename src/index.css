@@ -226,40 +226,6 @@
 }
 
 /* ==========================================================================
-   CLEAN & LUXURY ENTRANCE REVEAL (MATCHING INVEST WITH GANESH BRAND)
-   ========================================================================== */
-.site-entrance-curtain {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #141311;
-  color: #ffffff;
-  overflow: hidden;
-  will-change: transform;
-  transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
-}
-
-.site-entrance-curtain--lifted {
-  transform: translate3d(0, -100%, 0);
-  pointer-events: none;
-}
-
-/* Bottom golden accent line on curtain lift */
-.site-entrance-accent {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, #BD9A68 50%, transparent 100%);
-  opacity: 0.9;
-}
-
-/* ==========================================================================
    SIMPLE & ULTRA-FAST PAGE TRANSITIONS (TOP ACCENT BAR + SMOOTH CONTENT FADE)
    ========================================================================== */
 .page-top-loader {
@@ -293,9 +259,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-entrance-curtain {
-    transition-duration: 0.01ms !important;
-  }
   .page-top-loader {
     display: none !important;
   }

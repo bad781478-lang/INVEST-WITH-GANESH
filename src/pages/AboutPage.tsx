@@ -9,7 +9,6 @@ import {
   ArrowRight,
   FileCheck,
   Building2,
-  ExternalLink,
   Play,
   Sparkles,
 } from 'lucide-react';
@@ -319,40 +318,6 @@ export const AboutPage: React.FC = () => {
                       loading="lazy"
                     />
 
-                    {/* Dark gradient overlays */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/60 pointer-events-none" />
-
-                    {/* Top Floating Bar: Channel info & Watch on YouTube button */}
-                    <div className="absolute top-3 sm:top-5 inset-x-3 sm:inset-x-5 flex items-center justify-between z-10">
-                      <div className="flex items-center gap-2.5 sm:gap-3 bg-black/60 backdrop-blur-md px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl border border-white/15">
-                        <img
-                          src="/brand/yt-channel-avatar.jpg"
-                          alt="Invest With Gaaneesh Avatar"
-                          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-white/20"
-                        />
-                        <div className="text-left">
-                          <p className="text-xs sm:text-sm font-bold text-white leading-tight">
-                            Invest With Gaaneesh
-                          </p>
-                          <p className="text-[10px] sm:text-[11px] text-zinc-300">
-                            5.87k subscribers
-                          </p>
-                        </div>
-                      </div>
-
-                      <a
-                        href="https://www.youtube.com/watch?v=82HWVaodfYc"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-semibold transition-all shadow-md active:scale-95 border border-red-500/50"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                        <span className="hidden sm:inline">Watch on YouTube</span>
-                        <span className="sm:hidden">YouTube</span>
-                      </a>
-                    </div>
-
                     {/* Center Animated YouTube Play Icon */}
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                       <div className="relative flex items-center justify-center">
@@ -366,24 +331,6 @@ export const AboutPage: React.FC = () => {
                             className="w-16 sm:w-20 md:w-24 h-auto object-contain drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
                           />
                         </div>
-                      </div>
-                    </div>
-
-                    {/* Bottom Bar: Title & Duration / Quality Chips */}
-                    <div className="absolute bottom-3 sm:bottom-5 inset-x-3 sm:inset-x-6 z-10 flex flex-col sm:flex-row sm:items-end justify-between gap-2 text-white">
-                      <div className="space-y-1 max-w-2xl text-left">
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-amber-300 border border-white/10">
-                          <span>Mega Roads: 160FT &amp; 200FT</span>
-                        </div>
-                        <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white drop-shadow-sm line-clamp-2">
-                          जयपुर ज़ोन 9 मेगा रोड कनेक्टिविटी वाला भविष्य का स्मार्ट एरिया,Jaipur Zone 9 अभी खरीदो ,बाद में मज़े
-                        </h3>
-                      </div>
-
-                      <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
-                        <span className="px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-md text-[11px] font-medium border border-white/15 text-white/90">
-                          Click to Play 🎬
-                        </span>
                       </div>
                     </div>
                   </div>

@@ -106,17 +106,6 @@ export const YoutubeShowcaseSection: React.FC = () => {
                 loading="lazy"
               />
 
-              {/* Top Floating Chips inside Video */}
-              <div className="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center gap-2 pointer-events-none">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-black/70 backdrop-blur-md border border-white/15 text-[11px] sm:text-xs font-medium text-white shadow-md">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>4K Drone Walkthroughs</span>
-                </span>
-                <span className="hidden sm:inline-flex items-center px-3 py-1 rounded-lg bg-black/60 backdrop-blur-md border border-white/10 text-[11px] font-medium text-white/80">
-                  Mansarovar Extn · Ring Road · Diggi Road
-                </span>
-              </div>
-
               {/* Shimmer Light Reflection Sweep on Hover */}
               <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full duration-1000 bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform ease-out pointer-events-none" />
 
@@ -136,23 +125,6 @@ export const YoutubeShowcaseSection: React.FC = () => {
                     />
                   </div>
                 </div>
-              </div>
-
-              {/* Bottom bar inside video banner */}
-              <div className="absolute bottom-0 inset-x-0 p-4 sm:p-6 bg-gradient-to-t from-black/85 via-black/40 to-transparent flex items-center justify-between text-white pointer-events-none">
-                <div className="space-y-0.5">
-                  <p className="text-xs sm:text-sm font-semibold tracking-wide text-white flex items-center gap-1.5">
-                    <span>Channel: @invest_with_gaaneesh</span>
-                    <span className="text-amber-400">✓</span>
-                  </p>
-                  <p className="text-[11px] sm:text-xs text-white/70">
-                    Project reviews, JDA scheme updates and buyer guides, published regularly.
-                  </p>
-                </div>
-                <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold bg-white/15 backdrop-blur-md px-3.5 py-1.5 rounded-lg border border-white/20 text-white">
-                  <span>Watch on YouTube</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </span>
               </div>
             </div>
           </a>

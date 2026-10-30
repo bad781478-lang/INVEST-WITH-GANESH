@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 export const EntranceReveal: React.FC = () => {
   const [shouldRender, setShouldRender] = useState(true);
   const finishedRef = useRef(false);
+  const mountTimeRef = useRef(Date.now());
 
   useEffect(() => {
     // Lock scrolling while intro is active
@@ -18,8 +19,10 @@ export const EntranceReveal: React.FC = () => {
     };
 
     // Total duration:
-    // Typing finishes ~0.85s, hold until 1.15s, shutter slice takes 0.75s + 0.26s stagger = ~2.16s
-    const timeout = setTimeout(finish, 2180);
+    // Badge at 0.35s, Typewriter from 0.55s to ~1.75s, Tagline at 2.15s,
+    // Luxury readability hold until 3.45s, shutter slice 3.45s to 4.62s.
+    // Clean unmount at 4800ms.
+    const timeout = setTimeout(finish, 4800);
 
     // Skip controls: Escape, Enter, Space
     const handleKey = (e: KeyboardEvent) => {
@@ -38,6 +41,28 @@ export const EntranceReveal: React.FC = () => {
 
   if (!shouldRender) return null;
 
+  const handleContainerClick = () => {
+    // Prevent accidental mobile tap-dismiss during the first 2.0 seconds while text is typing
+    if (Date.now() - mountTimeRef.current < 2000) return;
+
+    if (!finishedRef.current) {
+      finishedRef.current = true;
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      setShouldRender(false);
+    }
+  };
+
+  const handleSkipExplicit = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!finishedRef.current) {
+      finishedRef.current = true;
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      setShouldRender(false);
+    }
+  };
+
   // 5 alternating horizontal shutter bands (0 to 4)
   const bands = [0, 1, 2, 3, 4];
   const line1 = 'INVEST WITH';
@@ -47,13 +72,18 @@ export const EntranceReveal: React.FC = () => {
     <div
       aria-hidden="true"
       className="onform-intro-overlay onform-intro--playing"
-      onClick={() => {
-        // Immediate skip on click just like onform.studio
-        document.body.style.overflow = '';
-        document.documentElement.style.overflow = '';
-        setShouldRender(false);
-      }}
+      onClick={handleContainerClick}
     >
+      {/* Explicit Skip Pill */}
+      <button
+        type="button"
+        className="onform-intro-skip-btn"
+        onClick={handleSkipExplicit}
+        aria-label="Skip entrance animation"
+      >
+        SKIP ↗
+      </button>
+
       {bands.map((band) => (
         <div
           key={`shutter-band-${band}`}

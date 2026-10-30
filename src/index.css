@@ -226,125 +226,147 @@
 }
 
 /* ==========================================================================
-   CONSULTARO FRAMER-INSPIRED COMPLEX ENTRANCE REVEAL (NO LOGO, PURE LUXURY)
+   ONFORM STUDIO SIGNATURE ENTRANCE REVEAL (5 ALTERNATING HORIZONTAL SHUTTERS)
    ========================================================================== */
-.consultaro-reveal-overlay {
+.onform-intro-overlay {
   position: fixed;
   inset: 0;
   z-index: 99999;
   overflow: hidden;
+  color: #ffffff;
+  background: transparent;
   pointer-events: auto;
+  cursor: pointer;
+  user-select: none;
 }
 
-/* Dual Architectural Shutters (Top & Bottom Half Split) */
-.consultaro-shutter {
+.onform-intro-shutter {
   position: absolute;
+  top: calc(var(--band) * 20%);
   left: 0;
-  right: 0;
-  height: 50%;
-  background-color: #161512;
-  will-change: transform;
-  transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+  width: 100%;
+  height: calc(20% + 1px);
   overflow: hidden;
+  background-color: #141311;
+  will-change: transform;
+  contain: paint;
+  backface-visibility: hidden;
+  --shutter-away: -102%;
 }
 
-.consultaro-shutter-top {
-  top: 0;
-  transform: translate3d(0, 0, 0);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+.onform-intro-shutter:nth-child(even) {
+  --shutter-away: 102%;
 }
 
-.consultaro-shutter-bottom {
-  bottom: 0;
-  transform: translate3d(0, 0, 0);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+/* When reveal animation triggers */
+.onform-intro--playing .onform-intro-shutter {
+  animation: onformShutterSlice 0.75s cubic-bezier(0.76, 0, 0.24, 1) calc(1.15s + var(--band) * 65ms) both;
 }
 
-.consultaro-reveal-overlay--lifted .consultaro-shutter-top {
-  transform: translate3d(0, -100%, 0);
-}
-
-.consultaro-reveal-overlay--lifted .consultaro-shutter-bottom {
-  transform: translate3d(0, 100%, 0);
-}
-
-/* Center Horizontal Laser Seam */
-.consultaro-laser-seam {
+.onform-intro-canvas {
   position: absolute;
-  top: 50%;
   left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, rgba(245, 158, 11, 0.4) 15%, #BD9A68 50%, rgba(245, 158, 11, 0.4) 85%, transparent 100%);
-  box-shadow: 0 0 15px rgba(245, 158, 11, 0.8);
-  transform: translateY(-50%);
-  z-index: 100;
-  transition: opacity 0.3s ease-out;
+  top: calc(var(--band) * -20dvh);
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
 }
 
-.consultaro-reveal-overlay--lifted .consultaro-laser-seam {
+/* Colossal Onform typography */
+.onform-wordmark-line {
+  display: flex;
+  justify-content: center;
+  font-family: Impact, "Arial Narrow", "Plus Jakarta Sans", sans-serif;
+  font-size: clamp(44px, 11vw, 140px);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+}
+
+.onform-type-glyph {
+  display: inline-block;
+  opacity: 0;
+  transform: translate3d(0, 0.06em, 0);
+  will-change: transform, opacity;
+}
+
+.onform-intro--playing .onform-type-glyph {
+  animation: onformIntroType 0.34s cubic-bezier(0.22, 1, 0.36, 1) calc(0.1s + var(--type-index) * 0.045s) both;
+}
+
+/* Overline & Underline Metadata */
+.onform-intro-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Geist", monospace;
+  font-size: clamp(10px, 1.2vw, 13px);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #BD9A68;
+  margin-bottom: 0.75rem;
   opacity: 0;
 }
 
-/* Subtle Technical Blueprint Grid on Dark */
-.consultaro-grid-bg {
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
+.onform-intro--playing .onform-intro-badge {
+  animation: onformFadeIn 0.4s ease-out 0.08s both;
 }
 
-/* Corner Architectural Crosshairs */
-.consultaro-crosshair {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  pointer-events: none;
-  z-index: 20;
+.onform-intro-tagline {
+  font-family: "Geist", monospace;
+  font-size: clamp(9.5px, 1.05vw, 12px);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 1.25rem;
+  opacity: 0;
+  text-align: center;
+  padding: 0 1rem;
 }
 
-.consultaro-crosshair::before,
-.consultaro-crosshair::after {
-  content: "";
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.35);
+.onform-intro--playing .onform-intro-tagline {
+  animation: onformFadeIn 0.4s ease-out 0.75s both;
 }
 
-.consultaro-crosshair::before {
-  top: 6px;
-  left: 0;
-  right: 0;
-  height: 1px;
-}
-
-.consultaro-crosshair::after {
-  left: 6px;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-}
-
-/* Shimmer on Text */
-.consultaro-text-shimmer {
-  background: linear-gradient(
-    110deg,
-    #ffffff 20%,
-    #fde68a 38%,
-    #BD9A68 50%,
-    #ffffff 65%
-  );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: consultaroShimmer 3s ease-in-out infinite;
-}
-
-@keyframes consultaroShimmer {
-  0% {
-    background-position: 100% 0;
+@keyframes onformIntroType {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.06em, 0);
   }
-  100% {
-    background-position: -100% 0;
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes onformShutterSlice {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(var(--shutter-away), 0, 0);
+  }
+}
+
+@keyframes onformFadeIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .onform-intro-overlay {
+    display: none !important;
   }
 }
 

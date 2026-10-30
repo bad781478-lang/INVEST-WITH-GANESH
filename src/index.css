@@ -131,25 +131,29 @@
 @keyframes hero-fade-up {
   0% {
     opacity: 0;
-    transform: translateY(28px);
+    transform: translate3d(0, 32px, 0);
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 .animate-hero-1 {
-  animation: hero-fade-up 0.85s var(--ease-framer) 0.1s backwards;
+  animation: hero-fade-up 0.85s var(--ease-framer) 0.08s both;
+  will-change: opacity, transform;
 }
 .animate-hero-2 {
-  animation: hero-fade-up 0.95s var(--ease-framer) 0.25s backwards;
+  animation: hero-fade-up 0.95s var(--ease-framer) 0.22s both;
+  will-change: opacity, transform;
 }
 .animate-hero-3 {
-  animation: hero-fade-up 0.95s var(--ease-framer) 0.4s backwards;
+  animation: hero-fade-up 0.95s var(--ease-framer) 0.36s both;
+  will-change: opacity, transform;
 }
 .animate-hero-4 {
-  animation: hero-fade-up 0.95s var(--ease-framer) 0.55s backwards;
+  animation: hero-fade-up 0.95s var(--ease-framer) 0.50s both;
+  will-change: opacity, transform;
 }
 
 /* Accessibility: Respect Reduced Motion */

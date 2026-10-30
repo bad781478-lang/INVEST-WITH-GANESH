@@ -1,8 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Badge } from '../Badge';
 import { ArrowRight } from 'lucide-react';
 
 export const HeroSection: React.FC = () => {
+  const [isRevealed, setIsRevealed] = useState(() => {
+    // If EntranceReveal is not active (e.g. already done or user navigating from another route), reveal immediately
+    if (typeof window === 'undefined') return true;
+    return Boolean(window.__entranceRevealDone) || !window.__entranceRevealActive;
+  });
+
+  useEffect(() => {
+    if (isRevealed) return;
+
+    const handleReveal = () => {
+      setIsRevealed(true);
+    };
+
+    window.addEventListener('entrance-reveal-opened', handleReveal);
+
+    // Safety timeout in case window events are delayed
+    const timer = setTimeout(() => {
+      setIsRevealed(true);
+    }, 4200);
+
+    return () => {
+      window.removeEventListener('entrance-reveal-opened', handleReveal);
+      clearTimeout(timer);
+    };
+  }, [isRevealed]);
+
   return (
     <section className="relative h-screen h-[100dvh] min-h-[100dvh] max-h-[100dvh] bg-[#161512] text-white flex flex-col justify-end pt-20 sm:pt-28 md:pt-32 pb-6 sm:pb-10 md:pb-20 overflow-hidden">
       {/* Background Images: Portrait image for mobile, landscape banner on desktop */}
@@ -48,7 +74,7 @@ export const HeroSection: React.FC = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 w-full">
         <div className="max-w-xl sm:max-w-2xl lg:max-w-3xl space-y-3 sm:space-y-4 md:space-y-5">
           {/* Top Pill Badge */}
-          <div className="inline-block animate-hero-1">
+          <div className={`inline-block ${isRevealed ? 'animate-hero-1' : 'opacity-0'}`}>
             <div className="inline-flex items-center gap-2 rounded-full bg-black/40 backdrop-blur-md border border-white/20 px-3 py-1 shadow-sm">
               <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
               <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-white/95">
@@ -58,17 +84,17 @@ export const HeroSection: React.FC = () => {
           </div>
 
           {/* Main H1 Headline */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[72px] font-semibold leading-[1.08] tracking-[-0.03em] text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] animate-hero-2">
+          <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[72px] font-semibold leading-[1.08] tracking-[-0.03em] text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] ${isRevealed ? 'animate-hero-2' : 'opacity-0'}`}>
             JDA &amp; RERA Approved Plots in Jaipur
           </h1>
 
           {/* Subtitle Description */}
-          <p className="text-[14px] sm:text-base md:text-[18px] text-white/90 leading-relaxed font-normal max-w-xl line-clamp-3 sm:line-clamp-none drop-shadow-[0_1px_4px_rgba(0,0,0,0.85)] animate-hero-3">
+          <p className={`text-[14px] sm:text-base md:text-[18px] text-white/90 leading-relaxed font-normal max-w-xl line-clamp-3 sm:line-clamp-none drop-shadow-[0_1px_4px_rgba(0,0,0,0.85)] ${isRevealed ? 'animate-hero-3' : 'opacity-0'}`}>
             Buy residential plots in Jaipur with a clear paper trail. Mr. Ganesh Yadav guides families and investors through JDA and RERA approved projects, from approvals and locations to site visits, before any money changes hands.
           </p>
 
           {/* Action Buttons */}
-          <div className="pt-1 sm:pt-3 flex flex-row flex-wrap items-center gap-3 sm:gap-4 animate-hero-4">
+          <div className={`pt-1 sm:pt-3 flex flex-row flex-wrap items-center gap-3 sm:gap-4 ${isRevealed ? 'animate-hero-4' : 'opacity-0'}`}>
             <a
               href="/contact"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-white text-zinc-950 px-5 sm:px-6 py-3 sm:py-3.5 text-[13.5px] sm:text-[14px] font-semibold hover:bg-zinc-100 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-0.5 active:scale-98 cursor-pointer"

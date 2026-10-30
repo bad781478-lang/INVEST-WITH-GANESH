@@ -1,18 +1,50 @@
 import React, { useEffect, useState, useRef } from 'react';
 
+declare global {
+  interface Window {
+    __entranceRevealActive?: boolean;
+    __entranceRevealDone?: boolean;
+  }
+}
+
+// Ensure active flag is immediately set synchronously before child components mount
+if (typeof window !== 'undefined' && !window.__entranceRevealDone) {
+  window.__entranceRevealActive = true;
+}
+
 export const EntranceReveal: React.FC = () => {
-  const [shouldRender, setShouldRender] = useState(true);
+  const [shouldRender, setShouldRender] = useState(() => {
+    return typeof window !== 'undefined' ? !window.__entranceRevealDone : true;
+  });
   const finishedRef = useRef(false);
   const mountTimeRef = useRef(Date.now());
 
   useEffect(() => {
+    if (window.__entranceRevealDone) {
+      setShouldRender(false);
+      return;
+    }
+
+    window.__entranceRevealActive = true;
+
     // Lock scrolling while intro is active
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
 
+    // Trigger hero & page content appearing animation right as shutters begin slicing
+    const revealStartTimer = setTimeout(() => {
+      window.__entranceRevealActive = false;
+      window.__entranceRevealDone = true;
+      window.dispatchEvent(new CustomEvent('entrance-reveal-opened'));
+    }, 3550);
+
     const finish = () => {
       if (finishedRef.current) return;
       finishedRef.current = true;
+      clearTimeout(revealStartTimer);
+      window.__entranceRevealActive = false;
+      window.__entranceRevealDone = true;
+      window.dispatchEvent(new CustomEvent('entrance-reveal-opened'));
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
       setShouldRender(false);
@@ -33,6 +65,7 @@ export const EntranceReveal: React.FC = () => {
 
     return () => {
       clearTimeout(timeout);
+      clearTimeout(revealStartTimer);
       window.removeEventListener('keydown', handleKey);
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
@@ -47,6 +80,9 @@ export const EntranceReveal: React.FC = () => {
 
     if (!finishedRef.current) {
       finishedRef.current = true;
+      window.__entranceRevealActive = false;
+      window.__entranceRevealDone = true;
+      window.dispatchEvent(new CustomEvent('entrance-reveal-opened'));
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
       setShouldRender(false);
@@ -57,6 +93,9 @@ export const EntranceReveal: React.FC = () => {
     e.stopPropagation();
     if (!finishedRef.current) {
       finishedRef.current = true;
+      window.__entranceRevealActive = false;
+      window.__entranceRevealDone = true;
+      window.dispatchEvent(new CustomEvent('entrance-reveal-opened'));
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
       setShouldRender(false);

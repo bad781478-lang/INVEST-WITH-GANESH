@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { StickySocialActions } from './components/StickySocialActions';
+import { EntranceReveal } from './components/EntranceReveal';
 import { PageTransition } from './components/PageTransition';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
@@ -74,6 +75,7 @@ const AppShell: React.FC = () => {
 
   return (
     <>
+      <EntranceReveal />
       <PageTransition />
       <ScrollAnimationObserver />
       <div className="flex flex-col min-h-screen">

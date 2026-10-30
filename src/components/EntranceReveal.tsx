@@ -1,63 +1,43 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const EntranceReveal: React.FC = () => {
   const [progress, setProgress] = useState(0);
-  const [phase, setPhase] = useState<'playing' | 'exit' | 'shutters' | 'done'>('playing');
+  const [isLifting, setIsLifting] = useState(false);
   const [shouldRender, setShouldRender] = useState(true);
-  const hasFinishedRef = useRef(false);
 
   useEffect(() => {
-    // Lock scrolling while entrance sequence is active
+    // Lock scrolling during entrance sequence
     document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
 
-    const duration = 1450; // Snappy, cinematic 1.45s counter duration
+    const duration = 950; // Snappy ~1s sequence
     const startTime = performance.now();
-    let animFrame: number;
 
-    const tick = (now: number) => {
-      if (hasFinishedRef.current) return;
-      const elapsed = now - startTime;
-      const progressRatio = Math.min(elapsed / duration, 1);
-      // Smooth ease-out cubic curve (1 - (1 - t)^3) like Iron Oath Studio
-      const eased = 1 - Math.pow(1 - progressRatio, 3);
-      const currentPct = Math.round(eased * 100);
-      setProgress(currentPct);
+    const updateProgress = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const pct = Math.min(100, Math.floor((elapsed / duration) * 100));
+      setProgress(pct);
 
-      if (progressRatio < 1) {
-        animFrame = requestAnimationFrame(tick);
+      if (elapsed < duration) {
+        requestAnimationFrame(updateProgress);
       } else {
         setProgress(100);
-        hasFinishedRef.current = true;
-
-        // Sequence:
-        // 1. Hide progress & start wordmark fly
+        // Begin curtain lift animation
         setTimeout(() => {
-          setPhase('exit');
-        }, 120);
-
-        // 2. Trigger double-layer shutter reveal
-        setTimeout(() => {
-          setPhase('shutters');
-          // Unlock body scroll as shutters part
+          setIsLifting(true);
           document.body.style.overflow = '';
-          document.documentElement.style.overflow = '';
-        }, 280);
-
-        // 3. Unmount completely from DOM
-        setTimeout(() => {
-          setPhase('done');
-          setShouldRender(false);
-        }, 1250);
+          // Clean unmount from DOM after curtain clears screen
+          setTimeout(() => {
+            setShouldRender(false);
+          }, 800);
+        }, 100);
       }
     };
 
-    animFrame = requestAnimationFrame(tick);
+    const frameId = requestAnimationFrame(updateProgress);
 
     return () => {
-      cancelAnimationFrame(animFrame);
+      cancelAnimationFrame(frameId);
       document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
     };
   }, []);
 
@@ -65,104 +45,60 @@ export const EntranceReveal: React.FC = () => {
 
   return (
     <div
-      aria-hidden={phase !== 'playing'}
-      className={`io-reveal-screen io-reveal--playing ${
-        phase === 'shutters' || phase === 'done' ? 'io-reveal--shutters-exit' : ''
-      }`}
+      aria-hidden={isLifting}
+      className={`site-entrance-curtain ${isLifting ? 'site-entrance-curtain--lifted' : ''}`}
     >
-      {/* Layer 1: White Columns (slide down on exit) */}
-      <div className="io-reveal-layer" aria-hidden="true">
-        {[0, 1, 2, 3, 4].map((col) => (
-          <div
-            key={`white-col-${col}`}
-            className="io-reveal-column io-reveal-column--white"
-            style={{ '--column-index': col } as React.CSSProperties}
-          />
-        ))}
+      {/* Subtle Warm Amber Glow Aura */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden" aria-hidden="true">
+        <div className="w-[320px] sm:w-[480px] h-[320px] sm:h-[480px] bg-gradient-to-tr from-amber-500/10 via-amber-600/5 to-transparent rounded-full blur-[90px]" />
       </div>
 
-      {/* Layer 2: Black Columns (slide up on exit) */}
-      <div className="io-reveal-layer" aria-hidden="true">
-        {[0, 1, 2, 3, 4].map((col) => (
-          <div
-            key={`black-col-${col}`}
-            className="io-reveal-column io-reveal-column--black"
-            style={{ '--column-index': col } as React.CSSProperties}
-          />
-        ))}
-      </div>
-
-      {/* Centered Editorial Wordmark & Progress: 100% Black & White Text, NO LOGO */}
-      <div className="io-reveal-content">
-        <div
-          className={`io-reveal-wordmark ${
-            phase === 'exit' || phase === 'shutters' || phase === 'done'
-              ? 'io-reveal--wordmark-exit'
-              : ''
-          }`}
-        >
-          {/* Word 1: INVEST */}
-          <div className="io-wordmark-group">
-            {'INVEST'.split('').map((char, idx) => (
-              <span key={`w1-${idx}`} className="io-letter-clip">
-                <span
-                  className="io-letter"
-                  style={{ '--letter-index': idx } as React.CSSProperties}
-                >
-                  {char}
-                </span>
-              </span>
-            ))}
-          </div>
-
-          {/* Word 2 & 3: WITH GANESH */}
-          <div className="io-wordmark-group">
-            {'WITH'.split('').map((char, idx) => (
-              <span key={`w2-${idx}`} className="io-letter-clip">
-                <span
-                  className="io-letter"
-                  style={{ '--letter-index': 6 + idx } as React.CSSProperties}
-                >
-                  {char}
-                </span>
-              </span>
-            ))}
-            <span className="w-2.5 sm:w-4 inline-block" />
-            {'GANESH'.split('').map((char, idx) => (
-              <span key={`w3-${idx}`} className="io-letter-clip">
-                <span
-                  className="io-letter"
-                  style={{ '--letter-index': 10 + idx } as React.CSSProperties}
-                >
-                  {char}
-                </span>
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Minimal Progress Bar & Numerical Counter */}
-        <div className="io-reveal-progress">
-          <div
-            className={`io-reveal-progress-labels ${
-              phase !== 'playing' ? 'io-reveal--labels-hide' : ''
-            }`}
-          >
-            <span className="tracking-[0.16em]">LOADING</span>
-            <span className="font-mono">{progress}%</span>
-          </div>
-          <div
-            className={`io-reveal-progress-track ${
-              phase !== 'playing' ? 'io-reveal--labels-hide' : ''
-            }`}
-          >
-            <span
-              className="io-reveal-line"
-              style={{ transform: `scaleX(${progress / 100})` }}
+      {/* Brand Lockup */}
+      <div
+        className={`relative z-10 flex flex-col items-center text-center px-6 transition-all duration-300 ease-out ${
+          isLifting ? 'opacity-0 -translate-y-6' : 'opacity-100 translate-y-0'
+        }`}
+      >
+        {/* Logo Emblem */}
+        <div className="relative mb-4 sm:mb-5">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-black/50 border border-white/15 p-2.5 shadow-2xl flex items-center justify-center backdrop-blur-md">
+            <img
+              src="/brand/logo-square.png"
+              alt="Invest With Ganesh Logo"
+              className="w-full h-full object-contain"
             />
           </div>
         </div>
+
+        {/* Website Brand Typography */}
+        <h1
+          className="text-lg sm:text-2xl font-bold tracking-tight text-white mb-1.5"
+          style={{ fontFamily: '"Plus Jakarta Sans", sans-serif' }}
+        >
+          INVEST WITH GANESH
+        </h1>
+
+        <p className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-amber-400 font-semibold mb-6">
+          JDA &amp; RERA APPROVED PLOTS · JAIPUR
+        </p>
+
+        {/* Minimalist Progress Meter */}
+        <div className="w-44 sm:w-56 space-y-2">
+          <div className="h-[2px] w-full bg-white/10 rounded-full overflow-hidden relative">
+            <div
+              className="h-full bg-gradient-to-r from-amber-400 via-[#BD9A68] to-amber-200 transition-all duration-75 ease-out rounded-full shadow-[0_0_8px_rgba(245,158,11,0.8)]"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <div className="flex items-center justify-between text-[10.5px] font-mono text-zinc-400 tracking-wider">
+            <span className="text-zinc-500">VERIFIED LIVING</span>
+            <span className="text-amber-400 font-semibold">{progress}%</span>
+          </div>
+        </div>
       </div>
+
+      {/* Golden Accent Hairline on Curtain Edge */}
+      <div className="site-entrance-accent" aria-hidden="true" />
     </div>
   );
 };

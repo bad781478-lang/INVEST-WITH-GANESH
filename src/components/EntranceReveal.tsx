@@ -89,19 +89,6 @@ export const EntranceReveal: React.FC = () => {
     }
   };
 
-  const handleSkipExplicit = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!finishedRef.current) {
-      finishedRef.current = true;
-      window.__entranceRevealActive = false;
-      window.__entranceRevealDone = true;
-      window.dispatchEvent(new CustomEvent('entrance-reveal-opened'));
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-      setShouldRender(false);
-    }
-  };
-
   // 5 alternating horizontal shutter bands (0 to 4)
   const bands = [0, 1, 2, 3, 4];
   const line1 = 'INVEST WITH';
@@ -113,16 +100,6 @@ export const EntranceReveal: React.FC = () => {
       className="onform-intro-overlay onform-intro--playing"
       onClick={handleContainerClick}
     >
-      {/* Explicit Skip Pill */}
-      <button
-        type="button"
-        className="onform-intro-skip-btn"
-        onClick={handleSkipExplicit}
-        aria-label="Skip entrance animation"
-      >
-        SKIP ↗
-      </button>
-
       {bands.map((band) => (
         <div
           key={`shutter-band-${band}`}

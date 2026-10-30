@@ -344,34 +344,6 @@
   animation: onformFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 2.15s both;
 }
 
-/* Subtle Skip Button */
-.onform-intro-skip-btn {
-  position: absolute;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 10;
-  pointer-events: auto;
-  opacity: 0;
-  font-family: "Geist", monospace;
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 9999px;
-  padding: 0.4rem 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  animation: onformFadeIn 0.5s ease-out 2.2s both;
-}
-
-.onform-intro-skip-btn:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
 @media (max-width: 640px) {
   .onform-wordmark-line {
     font-size: clamp(28px, 8.2vw, 44px);
@@ -387,12 +359,6 @@
     letter-spacing: 0.16em;
     margin-top: 1rem;
     padding: 0 1.25rem;
-  }
-  .onform-intro-skip-btn {
-    bottom: 1.5rem;
-    right: 1.5rem;
-    font-size: 10px;
-    padding: 0.35rem 0.75rem;
   }
 }
 

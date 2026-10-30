@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { StickySocialActions } from './components/StickySocialActions';
+import { EntranceReveal } from './components/EntranceReveal';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { ProjectsPage } from './pages/ProjectsPage';
@@ -89,6 +90,7 @@ const ScrollAnimationObserver: React.FC = () => {
 export const App: React.FC = () => {
   return (
     <BrowserRouter>
+      <EntranceReveal />
       <ScrollToTop />
       <ScrollAnimationObserver />
       <div className="flex flex-col min-h-screen">

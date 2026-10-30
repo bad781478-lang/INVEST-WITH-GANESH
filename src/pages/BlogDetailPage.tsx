@@ -81,7 +81,7 @@ export const BlogDetailPage: React.FC = () => {
 
       <div className="pt-28 sm:pt-32 pb-24 max-w-5xl mx-auto px-5 sm:px-8 md:px-10">
         {/* Navigation Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-8 flex items-center justify-between">
+        <nav aria-label="Breadcrumb" className="mb-8 flex items-center justify-between reveal-fade">
           <Link
             to="/blogs"
             className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-zinc-600 hover:text-zinc-950 transition-colors group bg-white px-3.5 py-1.5 rounded-full border border-zinc-200/80 shadow-xs"
@@ -120,7 +120,7 @@ export const BlogDetailPage: React.FC = () => {
         </nav>
 
         {/* Hero Header */}
-        <header className="space-y-5 mb-10">
+        <header className="space-y-5 mb-10 reveal-on-scroll">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200/70 text-[#966b2a] text-[11px] font-mono tracking-wider font-semibold uppercase">
             <Sparkles className="w-3 h-3 text-[#BD9A68]" />
             <span>{article?.badge || 'VERIFIED REAL ESTATE GUIDE'}</span>
@@ -140,7 +140,7 @@ export const BlogDetailPage: React.FC = () => {
           )}
 
           {/* Author & Meta Bar */}
-          <div className="pt-4 border-t border-b border-zinc-200/80 py-4 flex flex-wrap items-center justify-between gap-4">
+          <div className="pt-4 border-t border-b border-zinc-200/80 py-4 flex flex-wrap items-center justify-between gap-4 reveal-on-scroll delay-100">
             <div className="flex items-center gap-3">
               <img
                 src={article?.author.avatar || '/wmremove-transformed.jpeg'}
@@ -176,7 +176,7 @@ export const BlogDetailPage: React.FC = () => {
         </header>
 
         {/* Featured Hero Image */}
-        <div className="mb-12">
+        <div className="mb-12 reveal-scale delay-150">
           <div className="rounded-3xl overflow-hidden aspect-[16/9] shadow-md border border-zinc-200/80 bg-zinc-900 relative group">
             <img
               src={article?.imageUrl || basicPost?.imageUrl || '/invest/image-33.jpg'}
@@ -192,7 +192,7 @@ export const BlogDetailPage: React.FC = () => {
 
         {/* Key Highlights Grid (त्वरित सारांश) */}
         {article?.keyHighlights && article.keyHighlights.length > 0 && (
-          <div className="mb-12 bg-gradient-to-br from-amber-50/70 via-white to-amber-50/30 rounded-3xl p-6 sm:p-8 border border-amber-200/80 shadow-xs">
+          <div className="mb-12 bg-gradient-to-br from-amber-50/70 via-white to-amber-50/30 rounded-3xl p-6 sm:p-8 border border-amber-200/80 shadow-xs reveal-on-scroll">
             <div className="flex items-center gap-2 mb-5">
               <div className="w-8 h-8 rounded-xl bg-[#BD9A68] text-white flex items-center justify-center font-bold text-sm shadow-xs">
                 ⚡
@@ -209,7 +209,9 @@ export const BlogDetailPage: React.FC = () => {
               {article.keyHighlights.map((hl, idx) => (
                 <div
                   key={idx}
-                  className="bg-white rounded-2xl p-4 sm:p-5 border border-amber-100/90 shadow-2xs space-y-2 hover:border-amber-300 transition-colors"
+                  className={`bg-white rounded-2xl p-4 sm:p-5 border border-amber-100/90 shadow-2xs space-y-2 hover:border-amber-300 transition-colors reveal-on-scroll ${
+                    idx % 2 === 0 ? 'delay-100' : 'delay-200'
+                  }`}
                 >
                   <div className="flex items-center gap-2 text-[#966b2a] font-bold text-sm">
                     <CheckCircle2 className="w-4 h-4 text-[#BD9A68] shrink-0" />
@@ -226,7 +228,7 @@ export const BlogDetailPage: React.FC = () => {
 
         {/* Table of Contents Bar */}
         {article?.tableOfContents && article.tableOfContents.length > 0 && (
-          <div className="mb-12 bg-white rounded-2xl p-5 sm:p-6 border border-zinc-200/80 shadow-xs">
+          <div className="mb-12 bg-white rounded-2xl p-5 sm:p-6 border border-zinc-200/80 shadow-xs reveal-on-scroll delay-100">
             <div className="flex items-center justify-between mb-3 border-b border-zinc-100 pb-3">
               <span className="text-xs font-mono uppercase tracking-wider text-zinc-500 font-bold flex items-center gap-1.5">
                 <TrendingUp className="w-3.5 h-3.5 text-[#BD9A68]" />
@@ -249,9 +251,9 @@ export const BlogDetailPage: React.FC = () => {
         )}
 
         {/* Main Article Content Card */}
-        <article className="bg-white rounded-3xl p-6 sm:p-10 md:p-14 border border-zinc-200/80 shadow-xs space-y-12">
+        <article className="bg-white rounded-3xl p-6 sm:p-10 md:p-14 border border-zinc-200/80 shadow-xs space-y-12 reveal-on-scroll">
           {/* Executive Summary */}
-          <div className="border-l-4 border-[#BD9A68] pl-5 sm:pl-7 py-2 bg-amber-50/40 rounded-r-2xl">
+          <div className="border-l-4 border-[#BD9A68] pl-5 sm:pl-7 py-2 bg-amber-50/40 rounded-r-2xl reveal-on-scroll">
             <p className="text-base sm:text-lg md:text-xl font-normal text-zinc-900 leading-relaxed">
               {article?.summary || basicPost?.summary}
             </p>
@@ -260,7 +262,7 @@ export const BlogDetailPage: React.FC = () => {
           {/* Render All Rich Sections */}
           {article?.sections && article.sections.length > 0 ? (
             article.sections.map((section) => (
-              <section key={section.id} id={section.id} className="scroll-mt-28 space-y-6 pt-4 border-t border-zinc-100 first:border-0 first:pt-0">
+              <section key={section.id} id={section.id} className="scroll-mt-28 space-y-6 pt-4 border-t border-zinc-100 first:border-0 first:pt-0 reveal-on-scroll">
                 {/* Section Header */}
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2.5">
@@ -288,7 +290,7 @@ export const BlogDetailPage: React.FC = () => {
                 {/* Optional Alert Box */}
                 {section.alert && (
                   <div
-                    className={`rounded-2xl p-5 border flex items-start gap-3.5 my-6 ${
+                    className={`rounded-2xl p-5 border flex items-start gap-3.5 my-6 reveal-on-scroll delay-100 ${
                       section.alert.type === 'warning'
                         ? 'bg-rose-50/60 border-rose-200 text-rose-950'
                         : section.alert.type === 'tip'
@@ -314,7 +316,7 @@ export const BlogDetailPage: React.FC = () => {
 
                 {/* Optional Table */}
                 {section.table && (
-                  <div className="my-8 overflow-hidden rounded-2xl border border-zinc-200/90 shadow-2xs bg-white">
+                  <div className="my-8 overflow-hidden rounded-2xl border border-zinc-200/90 shadow-2xs bg-white reveal-scale delay-100">
                     <div className="bg-zinc-950 text-white px-5 py-3 text-sm font-semibold flex items-center justify-between">
                       <span>📊 {section.table.title}</span>
                       <span className="text-[11px] text-zinc-400 font-mono">2026 VERIFIED</span>
@@ -364,7 +366,7 @@ export const BlogDetailPage: React.FC = () => {
                     {section.cards.map((card, cIdx) => (
                       <div
                         key={cIdx}
-                        className="rounded-2xl p-6 border border-zinc-200/80 bg-gradient-to-br from-white to-zinc-50/40 shadow-2xs space-y-3 hover:border-zinc-300 transition-all"
+                        className="rounded-2xl p-6 border border-zinc-200/80 bg-gradient-to-br from-white to-zinc-50/40 shadow-2xs space-y-3 hover:border-zinc-300 transition-all reveal-on-scroll delay-100"
                       >
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <h3 className="text-base sm:text-lg font-bold text-zinc-950">
@@ -413,7 +415,7 @@ export const BlogDetailPage: React.FC = () => {
                     {section.steps.map((st, sIdx) => (
                       <div
                         key={sIdx}
-                        className="rounded-2xl p-5 border border-zinc-200 bg-white flex flex-col sm:flex-row items-start gap-4 shadow-2xs"
+                        className="rounded-2xl p-5 border border-zinc-200 bg-white flex flex-col sm:flex-row items-start gap-4 shadow-2xs reveal-on-scroll delay-100"
                       >
                         <div className="w-16 h-16 rounded-2xl bg-amber-50 border border-amber-200 text-[#BD9A68] flex items-center justify-center font-bold text-xl shrink-0 shadow-xs">
                           {st.stepNumber}
@@ -439,7 +441,7 @@ export const BlogDetailPage: React.FC = () => {
 
                 {/* Optional Quote Callout */}
                 {section.quote && (
-                  <blockquote className="my-8 rounded-2xl bg-[#161512] text-white p-6 sm:p-8 relative overflow-hidden shadow-md">
+                  <blockquote className="my-8 rounded-2xl bg-[#161512] text-white p-6 sm:p-8 relative overflow-hidden shadow-md reveal-scale delay-150">
                     <div className="absolute top-2 right-4 text-7xl font-serif text-white/5 select-none pointer-events-none">
                       “
                     </div>
@@ -463,7 +465,7 @@ export const BlogDetailPage: React.FC = () => {
             ))
           ) : (
             /* Fallback generic layout if custom article not mapped */
-            <div className="space-y-6">
+            <div className="space-y-6 reveal-on-scroll">
               <h2 className="text-2xl font-bold text-zinc-950">1. Plotted Land Considerations</h2>
               <p>
                 Plotted land offers flexibility for buyers looking to construct an independent home tailored to their family's needs. Unlike multi-story units, owning an individual plot provides direct control over the structure and land usage in accordance with local municipal building bylaws.
@@ -473,7 +475,7 @@ export const BlogDetailPage: React.FC = () => {
 
           {/* Interactive FAQ Section */}
           {article?.faqs && article.faqs.length > 0 && (
-            <div id="faqs" className="scroll-mt-28 pt-8 border-t border-zinc-200">
+            <div id="faqs" className="scroll-mt-28 pt-8 border-t border-zinc-200 reveal-on-scroll">
               <div className="mb-6 space-y-1">
                 <span className="text-xs font-mono uppercase tracking-wider text-[#BD9A68] font-bold">
                   FREQUENTLY ASKED QUESTIONS
@@ -489,7 +491,9 @@ export const BlogDetailPage: React.FC = () => {
                   return (
                     <div
                       key={fIdx}
-                      className="rounded-2xl border border-zinc-200/90 overflow-hidden bg-zinc-50/50 transition-colors"
+                      className={`rounded-2xl border border-zinc-200/90 overflow-hidden bg-zinc-50/50 transition-colors reveal-on-scroll ${
+                        fIdx % 2 === 0 ? 'delay-75' : 'delay-150'
+                      }`}
                     >
                       <button
                         onClick={() => setActiveFaq(isOpen ? null : fIdx)}
@@ -521,7 +525,7 @@ export const BlogDetailPage: React.FC = () => {
           )}
 
           {/* Author Advisory Box */}
-          <div className="pt-8 border-t border-zinc-200">
+          <div className="pt-8 border-t border-zinc-200 reveal-on-scroll delay-100">
             <div className="bg-gradient-to-br from-[#1b1916] to-[#121110] text-white rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-lg">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                 <div className="md:col-span-4 text-center md:text-left">
@@ -575,7 +579,7 @@ export const BlogDetailPage: React.FC = () => {
 
         {/* Recommended Townships Section */}
         {article?.relatedProjects && article.relatedProjects.length > 0 && (
-          <section className="mt-16 space-y-6">
+          <section className="mt-16 space-y-6 reveal-on-scroll">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div>
                 <span className="text-xs font-mono uppercase tracking-wider text-[#BD9A68] font-bold">
@@ -595,50 +599,55 @@ export const BlogDetailPage: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {article.relatedProjects.map((proj, pIdx) => (
-                <Link
-                  key={pIdx}
-                  to={`/projects/${proj.slug}`}
-                  className="group bg-white rounded-3xl overflow-hidden border border-zinc-200/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="relative aspect-[16/10] overflow-hidden bg-zinc-100">
-                      <img
-                        src={proj.imageUrl}
-                        alt={proj.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <span className="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
-                        {proj.status}
-                      </span>
+              {article.relatedProjects.map((proj, pIdx) => {
+                const delays = ['delay-100', 'delay-200', 'delay-300'];
+                const delayClass = delays[pIdx % delays.length];
+
+                return (
+                  <Link
+                    key={pIdx}
+                    to={`/projects/${proj.slug}`}
+                    className={`group bg-white rounded-3xl overflow-hidden border border-zinc-200/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between reveal-on-scroll ${delayClass}`}
+                  >
+                    <div>
+                      <div className="relative aspect-[16/10] overflow-hidden bg-zinc-100">
+                        <img
+                          src={proj.imageUrl}
+                          alt={proj.name}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <span className="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                          {proj.status}
+                        </span>
+                      </div>
+
+                      <div className="p-5 space-y-2">
+                        <h4 className="text-base font-bold text-zinc-950 group-hover:text-[#BD9A68] transition-colors">
+                          {proj.name}
+                        </h4>
+                        <p className="text-xs text-zinc-500 flex items-center gap-1.5">
+                          <MapPin className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+                          <span>{proj.location}</span>
+                        </p>
+                        <p className="text-xs font-medium text-emerald-700 pt-1">
+                          ✓ {proj.approval}
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="p-5 space-y-2">
-                      <h4 className="text-base font-bold text-zinc-950 group-hover:text-[#BD9A68] transition-colors">
-                        {proj.name}
-                      </h4>
-                      <p className="text-xs text-zinc-500 flex items-center gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
-                        <span>{proj.location}</span>
-                      </p>
-                      <p className="text-xs font-medium text-emerald-700 pt-1">
-                        ✓ {proj.approval}
-                      </p>
+                    <div className="px-5 pb-5 pt-2 flex items-center justify-between text-xs font-bold text-zinc-900 border-t border-zinc-100">
+                      <span className="text-zinc-500 group-hover:text-zinc-950">टाउनशिप विवरण देखें</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-[#BD9A68] group-hover:translate-x-1 transition-transform" />
                     </div>
-                  </div>
-
-                  <div className="px-5 pb-5 pt-2 flex items-center justify-between text-xs font-bold text-zinc-900 border-t border-zinc-100">
-                    <span className="text-zinc-500 group-hover:text-zinc-950">टाउनशिप विवरण देखें</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-[#BD9A68] group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           </section>
         )}
 
         {/* Bottom Consultation Banner */}
-        <section className="mt-16 bg-gradient-to-r from-zinc-900 to-zinc-950 text-white rounded-3xl p-8 sm:p-12 text-center space-y-5 shadow-xl border border-zinc-800">
+        <section className="mt-16 bg-gradient-to-r from-zinc-900 to-zinc-950 text-white rounded-3xl p-8 sm:p-12 text-center space-y-5 shadow-xl border border-zinc-800 reveal-scale delay-100">
           <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#BD9A68] font-bold block">
             FREE PROPERTY ADVICE
           </span>
